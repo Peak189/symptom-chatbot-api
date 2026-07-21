@@ -8,15 +8,27 @@ import os
 
 app = FastAPI()
 
-# 1. โหลดข้อมูลจาก Training.csv เพื่อเทรนโมเดลสดตอนเปิดเซิร์ฟเวอร์
+# 1. โหลดข้อมูลจาก Training.csv
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 csv_path = os.path.join(BASE_DIR, 'Training.csv')
 
 df = pd.read_csv(csv_path)
 
+# ลบคอลัมน์ขยะหรือคอลัมน์ Unnamed (ถ้ามี)
+df = df.loc[:, ~df.columns.str.contains('^Unnamed')]
+
+# หาคอลัมน์ที่เป็น Target (ชื่อโรค) ซึ่งปกติจะชื่อ 'prognosis' หรือคอลัมน์สุดท้าย
+if 'prognosis' in df.columns:
+    target_col = 'prognosis'
+else:
+    target_col = df.columns[-1]
+
 # แยก Features (อาการ) และ Target (โรค)
-X = df.iloc[:, :-1]
-y = df.iloc[:, -1]
+X = df.drop(columns=[target_col])
+y = df[target_col]
+
+# แปลงข้อมูลใน X ให้เป็นตัวเลขทั้งหมด ( numeric เท่านั้น )
+X = X.apply(pd.to_numeric, errors='coerce').fillna(0)
 
 SYMPTOMS = list(X.columns)
 
@@ -37,7 +49,6 @@ def read_root():
 
 @app.post("/predict")
 def predict(data: SymptomInput):
-    # รับค่าได้ทั้งแบบส่ง list อาการ หรือข้อความเพียวๆ
     symptoms_input = data.symptoms
     
     if not symptoms_input and data.text:

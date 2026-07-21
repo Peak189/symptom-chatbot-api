@@ -8,10 +8,9 @@ from sklearn.ensemble import RandomForestClassifier
 
 app = FastAPI(title="Symptom Classification ML Engine")
 
-# ================= ================= =================
-# 1. MOCK DATASET & TRAINING (132 Symptoms, 41 Diseases)
-# ================= ================= =================
-# รายชื่ออาการตัวอย่าง 132 อาการ (Feature Space)
+# =========================================================
+# 1. FEATURE SPACE (132 SYMPTOMS)
+# =========================================================
 SYMPTOMS_LIST = [
     "itching", "skin_rash", "nodal_skin_eruptions", "dischromic_patches", "continuous_sneezing",
     "shivering", "chills", "joint_pain", "stomach_pain", "acidity", "ulcers_on_tongue",
@@ -23,5 +22,4 @@ SYMPTOMS_LIST = [
     "back_pain", "constipation", "abdominal_pain", "diarrhoea", "mild_fever", "yellow_urine",
     "yellowing_of_eyes", "acute_liver_failure", "fluid_overload", "swelling_of_stomach",
     "swelled_lymph_nodes", "malaise", "blurred_and_distorted_vision", "phlegm", "throat_irritation",
-    "redness_of_eyes", "sinus_pressure", "runny_nose", "congestion", "chest_pain", "weakness_in_limbs",
-    "Normally I can help with things like this, but I don't seem to have access to that content. You can try again or ask me for something else.
+    "redness_of_eyes", "sinus_pressure", "runny_nose", "congestion", "chest_pain", "weaknessNormally I can help with things like this, but I don't seem to have access to that content. You can try again or ask me for something else.
